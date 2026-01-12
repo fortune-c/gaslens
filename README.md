@@ -1,6 +1,6 @@
 # Ethereum Smart Contract Bytecode Analyzer (GasLens)
 
-A comprehensive Go-based tool that analyzes Ethereum smart contract bytecode to identify gas usage patterns, storage hotspots, loops, and function-level gas consumption. This tool helps developers optimize smart contracts for gas efficiency.
+A comprehensive Go-based CLI tool that analyzes Ethereum smart contract bytecode to identify gas usage patterns, storage hotspots, loops, and function-level gas consumption. This tool helps developers optimize smart contracts for gas efficiency.
 
 ## Features
 
@@ -203,11 +203,12 @@ gaslens/
 │   ├── stack.go            # Stack simulation
 │   ├── loop.go             # Loop detection
 │   ├── function_tracker.go # Function analysis
-│   └── reporter.go         # Export and reporting
+│   ├── reporter.go         # Export and reporting
+│   └── simple_reporter.go  # User-friendly output
 ├── utils/
 │   ├── file.go             # File operations
 │   └── etherscan.go        # Etherscan API integration
-├── bytecode.txt            # Sample bytecode
+├── test_bytecode.txt       # Sample bytecode
 └── README.md
 ```
 
