@@ -29,3 +29,12 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Analysis output files
+analysis_report.json
+analysis_report.csv
+*.json
+*.csv
+
+# Test bytecode files (optional - depends if they're examples)
+*_bytecode.txt

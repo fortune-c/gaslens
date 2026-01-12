@@ -2,7 +2,10 @@ module gaslens
 
 go 1.25.5
 
-require github.com/ethereum/go-ethereum v1.16.7
+require (
+	github.com/ethereum/go-ethereum v1.16.7
+	github.com/joho/godotenv v1.5.1
+)
 
 require (
 	github.com/ProjectZKM/Ziren/crates/go-runtime/zkvm_runtime v0.0.0-20251001021608-1fe7b43fc4d6 // indirect
@@ -24,7 +27,6 @@ require (
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/holiman/bloomfilter/v2 v2.0.3 // indirect
 	github.com/holiman/uint256 v1.3.2 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/minio/sha256-simd v1.0.0 // indirect

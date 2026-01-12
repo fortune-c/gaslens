@@ -1,35 +1,92 @@
 Category,Item,Value,Details
-Opcode,DUP5,1,Gas: 3
-Opcode,JUMPI,5,Gas: 50
-Opcode,SHR,1,Gas: 3
-Opcode,PUSH4,2,Gas: 6
-Opcode,JUMPDEST,8,Gas: 8
-Opcode,EQ,2,Gas: 6
-Opcode,DUP3,1,Gas: 3
-Opcode,PUSH1,17,Gas: 51
-Opcode,RETURN,1,Gas: 0
-Opcode,POP,4,Gas: 8
-Opcode,SWAP2,3,Gas: 9
-Opcode,SUB,2,Gas: 6
-Opcode,ISZERO,2,Gas: 6
-Opcode,SLOAD,2,Gas: 200
-Opcode,STOP,1,Gas: 0
-Opcode,LT,1,Gas: 3
-Opcode,DUP1,8,Gas: 24
-Opcode,DUP2,1,Gas: 3
-Opcode,CALLDATASIZE,2,Gas: 4
-Opcode,MLOAD,2,Gas: 6
-Opcode,CALLVALUE,1,Gas: 2
-Opcode,SSTORE,1,Gas: 20000
-Opcode,REVERT,3,Gas: 0
-Opcode,JUMP,3,Gas: 24
-Opcode,SLT,1,Gas: 3
-Opcode,PUSH2,7,Gas: 21
-Opcode,MSTORE,2,Gas: 6
-Opcode,CALLDATALOAD,2,Gas: 6
-Opcode,SWAP1,4,Gas: 12
-Opcode,ADD,1,Gas: 3
-Storage Read,Slot 0,2,
-Storage Write,Slot 112,1,
-Function,0x2e1a7d4d,20401,Entry PC: 32
-Function,0x8da5cb5b,20379,Entry PC: 43
+Opcode,JUMPI,61,Gas: 610
+Opcode,DUP9,2,Gas: 6
+Opcode,ADD,138,Gas: 414
+Opcode,PUSH11,1,Gas: 3
+Opcode,STOP,4,Gas: 0
+Opcode,SWAPN,1,Gas: 0
+Opcode,DUP2,150,Gas: 450
+Opcode,EXP,6,Gas: 60
+Opcode,AND,113,Gas: 339
+Opcode,KECCAK256,42,Gas: 1260
+Opcode,MSTORE,113,Gas: 339
+Opcode,PUSH4,16,Gas: 48
+Opcode,RETURN,13,Gas: 0
+Opcode,ADDMOD,1,Gas: 8
+Opcode,LT,13,Gas: 39
+Opcode,CALL,1,Gas: 700
+Opcode,opcode 0x21 not defined,1,Gas: 0
+Opcode,SELFDESTRUCT,2,Gas: 10000
+Opcode,PUSH6,1,Gas: 3
+Opcode,JUMP,51,Gas: 408
+Opcode,PUSH29,1,Gas: 3
+Opcode,DUP1,153,Gas: 459
+Opcode,DUP5,9,Gas: 27
+Opcode,MLOAD,48,Gas: 144
+Opcode,CALLER,25,Gas: 50
+Opcode,DUP4,36,Gas: 108
+Opcode,PUSH32,5,Gas: 15
+Opcode,SUB,34,Gas: 102
+Opcode,SWAP3,8,Gas: 24
+Opcode,EQ,18,Gas: 54
+Opcode,opcode 0xc2 not defined,1,Gas: 0
+Opcode,LOG3,4,Gas: 6000
+Opcode,SWAP1,167,Gas: 501
+Opcode,DUP6,6,Gas: 18
+Opcode,DUP7,6,Gas: 18
+Opcode,RJUMP,1,Gas: 0
+Opcode,LOG1,2,Gas: 1500
+Opcode,GT,10,Gas: 30
+Opcode,opcode 0x23 not defined,1,Gas: 0
+Opcode,opcode 0x27 not defined,1,Gas: 0
+Opcode,PUSH1,402,Gas: 1206
+Opcode,MSTORE8,2,Gas: 6
+Opcode,NOT,3,Gas: 9
+Opcode,SWAP2,76,Gas: 228
+Opcode,PUSH20,95,Gas: 285
+Opcode,CALLVALUE,16,Gas: 32
+Opcode,DUP3,47,Gas: 141
+Opcode,REVERT,34,Gas: 0
+Opcode,SSTORE,12,Gas: 240000
+Opcode,POP,135,Gas: 270
+Opcode,CALLDATASIZE,1,Gas: 2
+Opcode,DIV,13,Gas: 65
+Opcode,CODECOPY,1,Gas: 3
+Opcode,MUL,9,Gas: 45
+Opcode,SWAP4,2,Gas: 6
+Opcode,JUMPDEST,124,Gas: 124
+Opcode,LOG2,3,Gas: 3375
+Opcode,ISZERO,79,Gas: 237
+Opcode,opcode 0xd not defined,1,Gas: 0
+Opcode,PUSH2,135,Gas: 405
+Opcode,SLOAD,38,Gas: 3800
+Opcode,CALLDATALOAD,16,Gas: 48
+Opcode,CALLCODE,1,Gas: 700
+Opcode,CALLDATACOPY,1,Gas: 3
+Opcode,opcode 0xbd not defined,1,Gas: 0
+Storage Read,Slot 4,3,
+Storage Read,Slot 1,1,
+Storage Read,Slot 108278179835992,1,
+Storage Read,Slot 0,26,
+Storage Read,Slot 64,2,
+Storage Read,Slot 31,2,
+Storage Read,Slot 3,2,
+Storage Read,Slot 2,1,
+Storage Write,Slot 0,11,
+Storage Write,Slot 3,1,
+Function,0xffffffff,274686,Entry PC: 46
+Function,0x06fdde03,274677,Entry PC: 53
+Function,0x095ea7b3,274655,Entry PC: 64
+Function,0x18160ddd,274633,Entry PC: 75
+Function,0x23b872dd,274611,Entry PC: 86
+Function,0x313ce567,274589,Entry PC: 97
+Function,0x3bed33ce,274567,Entry PC: 108
+Function,0x42966c68,274545,Entry PC: 119
+Function,0x6623fc46,274523,Entry PC: 130
+Function,0x70a08231,274501,Entry PC: 141
+Function,0x8da5cb5b,274479,Entry PC: 152
+Function,0x95d89b41,274457,Entry PC: 163
+Function,0xa9059cbb,274435,Entry PC: 174
+Function,0xcd4217c1,274413,Entry PC: 185
+Function,0xd7a78db8,274391,Entry PC: 196
+Function,0xdd62ed3e,274369,Entry PC: 207

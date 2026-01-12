@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-
 	"gaslens/analyzer"
 	"gaslens/utils"
-
 	"github.com/joho/godotenv"
 )
 
