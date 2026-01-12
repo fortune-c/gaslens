@@ -173,13 +173,63 @@ func AnalyzeBytecode(code []byte) {
 	if len(functionTracker.Functions) == 0 {
 		fmt.Println("No function selectors detected")
 	} else {
+		// Show top 5 most expensive functions
+		topFunctions := GetTopExpensiveFunctions(functionTracker.Functions, 5)
+		fmt.Println("\n=== Top 5 Most Expensive Functions ===")
+		for i, fn := range topFunctions {
+			fmt.Printf("%d. Function %s at PC %d used approx %d gas\n",
+				i+1, fn.Selector, fn.EntryPC, fn.Gas)
+		}
+		
+		fmt.Println("\n=== All Functions ===")
 		for _, fn := range functionTracker.Functions {
 			fmt.Printf("Function %s at PC %d used approx %d gas\n",
-				fn.Selector,
-				fn.EntryPC,
-				fn.Gas,
-			)
+				fn.Selector, fn.EntryPC, fn.Gas)
 		}
+	}
+
+	// Generate optimization suggestions
+	suggestions := GenerateOptimizationSuggestions(storage, loopTracker.Loops, opcodeGas)
+	if len(suggestions) > 0 {
+		fmt.Println("\n=== Optimization Suggestions ===")
+		for i, suggestion := range suggestions {
+			fmt.Printf("%d. %s\n", i+1, suggestion)
+		}
+	}
+
+	// Create analysis report
+	report := &AnalysisReport{
+		TotalGas:        totalGas,
+		OpcodeFrequency: make(map[string]int),
+		OpcodeGas:       make(map[string]uint64),
+		StorageReads:    storage.SLoadCount,
+		StorageWrites:   storage.SStoreCount,
+		Loops:           loopTracker.Loops,
+		Functions:       functionTracker.Functions,
+		TopExpensiveOps: convertToOpGasPairs(topExpensiveOpcodes(opcodeGas, 10)),
+		Optimizations:   suggestions,
+	}
+
+	// Convert opcode maps to string keys for JSON export
+	for op, count := range opcodeCount {
+		report.OpcodeFrequency[op.String()] = count
+	}
+	for op, gas := range opcodeGas {
+		report.OpcodeGas[op.String()] = gas
+	}
+
+	// Export reports
+	fmt.Println("\n=== Exporting Reports ===")
+	if err := ExportToJSON(report, "analysis_report.json"); err != nil {
+		fmt.Printf("Failed to export JSON: %v\n", err)
+	} else {
+		fmt.Println("✓ JSON report exported to analysis_report.json")
+	}
+
+	if err := ExportToCSV(report, "analysis_report.csv"); err != nil {
+		fmt.Printf("Failed to export CSV: %v\n", err)
+	} else {
+		fmt.Println("✓ CSV report exported to analysis_report.csv")
 	}
 
 }
@@ -196,6 +246,17 @@ func topExpensiveOpcodes(opcodeGas map[vm.OpCode]uint64, topN int) []opGasPair {
 		return pairs[:topN]
 	}
 	return pairs
+}
+
+func convertToOpGasPairs(pairs []opGasPair) []OpGasPair {
+	result := make([]OpGasPair, len(pairs))
+	for i, pair := range pairs {
+		result[i] = OpGasPair{
+			Opcode: pair.Op.String(),
+			Gas:    pair.Gas,
+		}
+	}
+	return result
 }
 
 func printBarChart(label string, data map[string]uint64, maxWidth int) {

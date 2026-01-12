@@ -1,0 +1,35 @@
+Category,Item,Value,Details
+Opcode,DUP5,1,Gas: 3
+Opcode,JUMPI,5,Gas: 50
+Opcode,SHR,1,Gas: 3
+Opcode,PUSH4,2,Gas: 6
+Opcode,JUMPDEST,8,Gas: 8
+Opcode,EQ,2,Gas: 6
+Opcode,DUP3,1,Gas: 3
+Opcode,PUSH1,17,Gas: 51
+Opcode,RETURN,1,Gas: 0
+Opcode,POP,4,Gas: 8
+Opcode,SWAP2,3,Gas: 9
+Opcode,SUB,2,Gas: 6
+Opcode,ISZERO,2,Gas: 6
+Opcode,SLOAD,2,Gas: 200
+Opcode,STOP,1,Gas: 0
+Opcode,LT,1,Gas: 3
+Opcode,DUP1,8,Gas: 24
+Opcode,DUP2,1,Gas: 3
+Opcode,CALLDATASIZE,2,Gas: 4
+Opcode,MLOAD,2,Gas: 6
+Opcode,CALLVALUE,1,Gas: 2
+Opcode,SSTORE,1,Gas: 20000
+Opcode,REVERT,3,Gas: 0
+Opcode,JUMP,3,Gas: 24
+Opcode,SLT,1,Gas: 3
+Opcode,PUSH2,7,Gas: 21
+Opcode,MSTORE,2,Gas: 6
+Opcode,CALLDATALOAD,2,Gas: 6
+Opcode,SWAP1,4,Gas: 12
+Opcode,ADD,1,Gas: 3
+Storage Read,Slot 0,2,
+Storage Write,Slot 112,1,
+Function,0x2e1a7d4d,20401,Entry PC: 32
+Function,0x8da5cb5b,20379,Entry PC: 43

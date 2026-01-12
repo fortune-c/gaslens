@@ -1,0 +1,129 @@
+{
+  "total_gas": 20476,
+  "opcode_frequency": {
+    "ADD": 1,
+    "CALLDATALOAD": 2,
+    "CALLDATASIZE": 2,
+    "CALLVALUE": 1,
+    "DUP1": 8,
+    "DUP2": 1,
+    "DUP3": 1,
+    "DUP5": 1,
+    "EQ": 2,
+    "ISZERO": 2,
+    "JUMP": 3,
+    "JUMPDEST": 8,
+    "JUMPI": 5,
+    "LT": 1,
+    "MLOAD": 2,
+    "MSTORE": 2,
+    "POP": 4,
+    "PUSH1": 17,
+    "PUSH2": 7,
+    "PUSH4": 2,
+    "RETURN": 1,
+    "REVERT": 3,
+    "SHR": 1,
+    "SLOAD": 2,
+    "SLT": 1,
+    "SSTORE": 1,
+    "STOP": 1,
+    "SUB": 2,
+    "SWAP1": 4,
+    "SWAP2": 3
+  },
+  "opcode_gas": {
+    "ADD": 3,
+    "CALLDATALOAD": 6,
+    "CALLDATASIZE": 4,
+    "CALLVALUE": 2,
+    "DUP1": 24,
+    "DUP2": 3,
+    "DUP3": 3,
+    "DUP5": 3,
+    "EQ": 6,
+    "ISZERO": 6,
+    "JUMP": 24,
+    "JUMPDEST": 8,
+    "JUMPI": 50,
+    "LT": 3,
+    "MLOAD": 6,
+    "MSTORE": 6,
+    "POP": 8,
+    "PUSH1": 51,
+    "PUSH2": 21,
+    "PUSH4": 6,
+    "RETURN": 0,
+    "REVERT": 0,
+    "SHR": 3,
+    "SLOAD": 200,
+    "SLT": 3,
+    "SSTORE": 20000,
+    "STOP": 0,
+    "SUB": 6,
+    "SWAP1": 12,
+    "SWAP2": 9
+  },
+  "storage_reads": {
+    "0": 2
+  },
+  "storage_writes": {
+    "112": 1
+  },
+  "loops": [],
+  "functions": [
+    {
+      "Selector": "0x2e1a7d4d",
+      "EntryPC": 32,
+      "Gas": 20401
+    },
+    {
+      "Selector": "0x8da5cb5b",
+      "EntryPC": 43,
+      "Gas": 20379
+    }
+  ],
+  "top_expensive_opcodes": [
+    {
+      "opcode": "SSTORE",
+      "gas": 20000
+    },
+    {
+      "opcode": "SLOAD",
+      "gas": 200
+    },
+    {
+      "opcode": "PUSH1",
+      "gas": 51
+    },
+    {
+      "opcode": "JUMPI",
+      "gas": 50
+    },
+    {
+      "opcode": "JUMP",
+      "gas": 24
+    },
+    {
+      "opcode": "DUP1",
+      "gas": 24
+    },
+    {
+      "opcode": "PUSH2",
+      "gas": 21
+    },
+    {
+      "opcode": "SWAP1",
+      "gas": 12
+    },
+    {
+      "opcode": "SWAP2",
+      "gas": 9
+    },
+    {
+      "opcode": "JUMPDEST",
+      "gas": 8
+    }
+  ],
+  "optimization_suggestions": null
+}
