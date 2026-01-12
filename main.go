@@ -17,12 +17,17 @@ func main() {
 	}
 
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: gaslens <bytecode_file> OR gaslens -address <contract_address>")
+		fmt.Println("Usage:")
+		fmt.Println("  gaslens <bytecode_file>                    # Simple analysis")
+		fmt.Println("  gaslens -address <contract_address>        # Analyze deployed contract")
+		fmt.Println("  gaslens -detailed <bytecode_file>          # Detailed technical analysis")
 		return
 	}
 
 	var code []byte
+	detailed := false
 
+	// Check for flags
 	if os.Args[1] == "-address" && len(os.Args) >= 3 {
 		apiKey := os.Getenv("ETHERSCAN_API_KEY")
 		if apiKey == "" {
@@ -30,10 +35,13 @@ func main() {
 		}
 
 		address := os.Args[2]
-		code = utils.FetchBytecode(address, apiKey) // Fetch deployed contract bytecode
+		code = utils.FetchBytecode(address, apiKey)
+	} else if os.Args[1] == "-detailed" && len(os.Args) >= 3 {
+		detailed = true
+		code = utils.ReadHexFile(os.Args[2])
 	} else {
-		code = utils.ReadHexFile(os.Args[1]) // Read local bytecode file
+		code = utils.ReadHexFile(os.Args[1])
 	}
 
-	analyzer.AnalyzeBytecode(code)
+	analyzer.AnalyzeBytecode(code, detailed)
 }

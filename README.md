@@ -68,7 +68,9 @@ go build -o gaslens main.go
 
 ## Usage
 
-### Analyze Local Bytecode File
+### Simple Analysis (Beginner-Friendly)
+
+For non-technical users who want easy-to-understand results:
 
 ```bash
 ./gaslens <bytecode_file>
@@ -76,8 +78,37 @@ go build -o gaslens main.go
 
 Example:
 ```bash
-./gaslens bytecode.txt
+./gaslens test_bytecode.txt
 ```
+
+This provides:
+- 🔍 Simple gas cost summary with USD estimates
+- ⭐ Gas efficiency rating (Excellent/Good/Fair/Poor)
+- 🔥 Top 3 most expensive operations in plain English
+- 💾 Storage usage summary
+- 💡 Simple optimization tips
+- 🎯 Function cost breakdown
+
+### Detailed Technical Analysis
+
+For developers who need comprehensive technical details:
+
+```bash
+./gaslens -detailed <bytecode_file>
+```
+
+Example:
+```bash
+./gaslens -detailed test_bytecode.txt
+```
+
+This provides:
+- Complete opcode-by-opcode trace
+- Detailed frequency analysis
+- ASCII bar charts
+- Technical storage analysis
+- Loop detection details
+- Advanced optimization suggestions
 
 ### Analyze Deployed Contract
 
@@ -117,17 +148,43 @@ The analyzer automatically generates:
 
 ## Example Output
 
+### Simple Mode (Default)
+```
+🔍 SMART CONTRACT GAS ANALYSIS
+================================
+💰 Estimated Total Gas Cost: 21897 gas
+💵 Approximate Cost (20 gwei): $1.3138 USD
+⭐ Gas Efficiency Rating: 🟢 EXCELLENT (Very efficient)
+
+🔥 TOP GAS CONSUMERS:
+   1. 💾 Storage Write (expensive!) - 20000 gas
+   2. ⚙️  LOG2 Operation - 1125 gas
+   3. ➡️  Code Navigation - 144 gas
+
+💾 STORAGE USAGE:
+   📖 Storage Reads: 1
+   💾 Storage Writes: 1
+
+💡 OPTIMIZATION TIPS:
+   ✅ No obvious optimizations needed!
+
+🎯 FUNCTION COSTS:
+   1. Function 0x2e1a7d4d - 21822 gas (💚 Cheap)
+   2. Function 0x8da5cb5b - 21800 gas (💚 Cheap)
+```
+
+### Detailed Mode (-detailed flag)
 ```
 === Top 5 Expensive Opcodes ===
 1. SSTORE     : 20000 gas
-2. SLOAD      : 200 gas
-3. PUSH1      : 51 gas
-4. JUMPI      : 50 gas
-5. JUMP       : 24 gas
+2. LOG2       : 1125 gas
+3. JUMP       : 144 gas
+4. SLOAD      : 100 gas
+5. PUSH2      : 78 gas
 
 === Top 5 Most Expensive Functions ===
-1. Function 0x2e1a7d4d at PC 32 used approx 20401 gas
-2. Function 0x8da5cb5b at PC 43 used approx 20379 gas
+1. Function 0x2e1a7d4d at PC 33 used approx 21822 gas
+2. Function 0x8da5cb5b at PC 44 used approx 21800 gas
 
 === Optimization Suggestions ===
 1. Cache storage slot 0 in memory (read 3 times)

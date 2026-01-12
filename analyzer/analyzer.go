@@ -13,7 +13,7 @@ type opGasPair struct {
 }
 
 // AnalyzeBytecode prints opcode gas and charts
-func AnalyzeBytecode(code []byte) {
+func AnalyzeBytecode(code []byte, detailed bool) {
 	pc := 0
 	var totalGas uint64
 
@@ -121,6 +121,97 @@ func AnalyzeBytecode(code []byte) {
 		fmt.Printf("\nDetected %d consecutive SSTORE instructions. Consider packing variables.\n", maxConsecutiveSSTORE)
 	}
 
+	// Create analysis report
+	report := &AnalysisReport{
+		TotalGas:        totalGas,
+		OpcodeFrequency: make(map[string]int),
+		OpcodeGas:       make(map[string]uint64),
+		StorageReads:    storage.SLoadCount,
+		StorageWrites:   storage.SStoreCount,
+		Loops:           loopTracker.Loops,
+		Functions:       functionTracker.Functions,
+		TopExpensiveOps: convertToOpGasPairs(topExpensiveOpcodes(opcodeGas, 10)),
+		Optimizations:   GenerateOptimizationSuggestions(storage, loopTracker.Loops, opcodeGas),
+	}
+
+	// Convert opcode maps to string keys for JSON export
+	for op, count := range opcodeCount {
+		report.OpcodeFrequency[op.String()] = count
+	}
+	for op, gas := range opcodeGas {
+		report.OpcodeGas[op.String()] = gas
+	}
+
+	// Choose output format based on detailed flag
+	if detailed {
+		printDetailedReport(opcodeCount, opcodeGas, totalGas, storage, loopTracker, functionTracker, report.Optimizations)
+	} else {
+		PrintSimpleReport(report)
+	}
+
+	// Export reports (always generate these)
+	fmt.Println("\n📄 Reports saved:")
+	if err := ExportToJSON(report, "analysis_report.json"); err != nil {
+		fmt.Printf("❌ Failed to export JSON: %v\n", err)
+	} else {
+		fmt.Println("✓ analysis_report.json")
+	}
+
+	if err := ExportToCSV(report, "analysis_report.csv"); err != nil {
+		fmt.Printf("❌ Failed to export CSV: %v\n", err)
+	} else {
+		fmt.Println("✓ analysis_report.csv")
+	}
+}
+
+// Helper functions
+
+func topExpensiveOpcodes(opcodeGas map[vm.OpCode]uint64, topN int) []opGasPair {
+	pairs := []opGasPair{}
+	for op, gas := range opcodeGas {
+		pairs = append(pairs, opGasPair{op, gas})
+	}
+	sort.Slice(pairs, func(i, j int) bool { return pairs[i].Gas > pairs[j].Gas })
+	if len(pairs) > topN {
+		return pairs[:topN]
+	}
+	return pairs
+}
+
+func convertToOpGasPairs(pairs []opGasPair) []OpGasPair {
+	result := make([]OpGasPair, len(pairs))
+	for i, pair := range pairs {
+		result[i] = OpGasPair{
+			Opcode: pair.Op.String(),
+			Gas:    pair.Gas,
+		}
+	}
+	return result
+}
+
+func printBarChart(label string, data map[string]uint64, maxWidth int) {
+	var maxVal uint64
+	for _, v := range data {
+		if v > maxVal {
+			maxVal = v
+		}
+	}
+	if maxVal == 0 {
+		fmt.Println("No data for", label)
+		return
+	}
+	fmt.Println("\n=== " + label + " ===")
+	for k, v := range data {
+		barLen := int(v * uint64(maxWidth) / maxVal)
+		bar := ""
+		for i := 0; i < barLen; i++ {
+			bar += "█"
+		}
+		fmt.Printf("%-10s |%-*s %d\n", k, maxWidth, bar, v)
+	}
+}
+
+func printDetailedReport(opcodeCount map[vm.OpCode]int, opcodeGas map[vm.OpCode]uint64, totalGas uint64, storage *StorageTracker, loopTracker *LoopTracker, functionTracker *FunctionTracker, suggestions []string) {
 	// Summary
 	fmt.Println("\n=== Opcode Frequency Summary ===")
 	for op, count := range opcodeCount {
@@ -189,94 +280,10 @@ func AnalyzeBytecode(code []byte) {
 	}
 
 	// Generate optimization suggestions
-	suggestions := GenerateOptimizationSuggestions(storage, loopTracker.Loops, opcodeGas)
 	if len(suggestions) > 0 {
 		fmt.Println("\n=== Optimization Suggestions ===")
 		for i, suggestion := range suggestions {
 			fmt.Printf("%d. %s\n", i+1, suggestion)
 		}
-	}
-
-	// Create analysis report
-	report := &AnalysisReport{
-		TotalGas:        totalGas,
-		OpcodeFrequency: make(map[string]int),
-		OpcodeGas:       make(map[string]uint64),
-		StorageReads:    storage.SLoadCount,
-		StorageWrites:   storage.SStoreCount,
-		Loops:           loopTracker.Loops,
-		Functions:       functionTracker.Functions,
-		TopExpensiveOps: convertToOpGasPairs(topExpensiveOpcodes(opcodeGas, 10)),
-		Optimizations:   suggestions,
-	}
-
-	// Convert opcode maps to string keys for JSON export
-	for op, count := range opcodeCount {
-		report.OpcodeFrequency[op.String()] = count
-	}
-	for op, gas := range opcodeGas {
-		report.OpcodeGas[op.String()] = gas
-	}
-
-	// Export reports
-	fmt.Println("\n=== Exporting Reports ===")
-	if err := ExportToJSON(report, "analysis_report.json"); err != nil {
-		fmt.Printf("Failed to export JSON: %v\n", err)
-	} else {
-		fmt.Println("✓ JSON report exported to analysis_report.json")
-	}
-
-	if err := ExportToCSV(report, "analysis_report.csv"); err != nil {
-		fmt.Printf("Failed to export CSV: %v\n", err)
-	} else {
-		fmt.Println("✓ CSV report exported to analysis_report.csv")
-	}
-
-}
-
-// Helper functions
-
-func topExpensiveOpcodes(opcodeGas map[vm.OpCode]uint64, topN int) []opGasPair {
-	pairs := []opGasPair{}
-	for op, gas := range opcodeGas {
-		pairs = append(pairs, opGasPair{op, gas})
-	}
-	sort.Slice(pairs, func(i, j int) bool { return pairs[i].Gas > pairs[j].Gas })
-	if len(pairs) > topN {
-		return pairs[:topN]
-	}
-	return pairs
-}
-
-func convertToOpGasPairs(pairs []opGasPair) []OpGasPair {
-	result := make([]OpGasPair, len(pairs))
-	for i, pair := range pairs {
-		result[i] = OpGasPair{
-			Opcode: pair.Op.String(),
-			Gas:    pair.Gas,
-		}
-	}
-	return result
-}
-
-func printBarChart(label string, data map[string]uint64, maxWidth int) {
-	var maxVal uint64
-	for _, v := range data {
-		if v > maxVal {
-			maxVal = v
-		}
-	}
-	if maxVal == 0 {
-		fmt.Println("No data for", label)
-		return
-	}
-	fmt.Println("\n=== " + label + " ===")
-	for k, v := range data {
-		barLen := int(v * uint64(maxWidth) / maxVal)
-		bar := ""
-		for i := 0; i < barLen; i++ {
-			bar += "█"
-		}
-		fmt.Printf("%-10s |%-*s %d\n", k, maxWidth, bar, v)
 	}
 }
